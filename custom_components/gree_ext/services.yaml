@@ -1,0 +1,42 @@
+set_swing_mode_ext:
+  name: Set extended swing mode
+  description: Set Gree specific swing operation for climate device.
+  target:
+    entity:
+      domain: climate
+  fields:
+    swing_mode_horizontal:
+      name: Horizontal swing mode
+      description: "New value of horizontal swing mode."
+      required: false
+      example: "Default"
+      selector:
+        select:
+          options:
+            - "Default"
+            - "FullSwing"
+            - "Left"
+            - "LeftCenter"
+            - "Center"
+            - "RightCenter"
+            - "Right"
+    swing_mode_vertical:
+      name: Vertical swing mode
+      description: "New value of vertical swing mode."
+      required: false
+      example: "Default"
+      selector:
+        select:
+          options:
+            - "Default"
+            - "FullSwing"
+            - "FixedUpper"
+            - "FixedUpperMiddle"
+            - "FixedMiddle"
+            - "FixedLowerMiddle"
+            - "FixedLower"
+            - "SwingUpper"
+            - "SwingUpperMiddle"
+            - "SwingMiddle"
+            - "SwingLowerMiddle"
+            - "SwingLower"

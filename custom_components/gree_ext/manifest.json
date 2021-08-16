@@ -1,0 +1,10 @@
+{
+  "domain": "gree_ext",
+  "name": "Gree climate extension",
+  "documentation": "none",
+  "dependencies": [],
+  "codeowners": [],
+  "requirements": [],
+  "iot_class": "local_polling",
+  "version": "0.1.0"
+}
