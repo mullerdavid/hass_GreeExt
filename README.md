@@ -11,6 +11,15 @@ Usage:
    data:
      swing_mode_vertical: FixedMiddle
    ```
+   
+Usage on UI:
+	1. Create a new button for example.
+	2. Set the action to Call Service.
+	![Screenshot1](docs/readme1.png)
+	3. Add target to the action. This can be an entity, a device, or an area (will control all the gree climates in the area).
+	![Screenshot2](docs/readme2.png)
+	4. Make the desired changes.
+	![Screenshot3](docs/readme3.png)
 
 ## Custom Component Installation
 
