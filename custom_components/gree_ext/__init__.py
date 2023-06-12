@@ -11,7 +11,6 @@ configuration.yaml file.
 gree_ext:
 """
 
-import asyncio
 import logging
 
 from homeassistant.core import callback
@@ -27,8 +26,7 @@ _LOGGER = logging.getLogger(__name__)
 DOMAIN = "gree_ext"
 
 
-@asyncio.coroutine
-def async_setup(hass, config):
+async def async_setup(hass, config):
     """Setup our component."""
 	
     @callback
