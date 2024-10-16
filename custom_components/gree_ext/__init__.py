@@ -51,7 +51,7 @@ async def async_setup(hass, config):
             if platform.domain == CLIMATE_DOMAIN:
                 for eid, entity in platform.entities.items():
                     if entity.entity_id in entity_id and isinstance(entity, GreeClimateEntity):
-                        _LOGGER.warning( "Setting switng mode for entity (%s) to %s/%s", entity.entity_id, str(swing_mode_horizontal), str(swing_mode_vertical))
+                        _LOGGER.warning( "Setting swing mode for entity (%s) to %s/%s", entity.entity_id, str(swing_mode_horizontal), str(swing_mode_vertical))
                         greeclimate = entity.coordinator.device
                         if swing_mode_horizontal:
                             try:
