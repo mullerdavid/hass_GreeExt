@@ -2,9 +2,8 @@
 import logging
 from homeassistant.components.select import SelectEntity
 from homeassistant.core import HomeAssistant, callback
-from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers import device_registry as dr, entity_registry as er, entity_platform as ep
+from homeassistant.helpers import entity_platform as ep
 from homeassistant.components.gree.const import DOMAIN as GREE_DOMAIN
 from homeassistant.components.climate.const import DOMAIN as CLIMATE_DOMAIN
 from homeassistant.components.gree.climate import GreeClimateEntity
@@ -39,22 +38,22 @@ VERTICAL_SWING_OPTIONS = [
 ]
 
 
-async def async_setup_entry(
-    hass: HomeAssistant,
-    config_entry: ConfigEntry,
-    async_add_entities: AddEntitiesCallback,
-) -> None:
-    """Set up Gree extended select entities from a config entry."""
-    _LOGGER.debug("Setting up Gree extended select entities")
+async def async_setup_platform(
+    hass: HomeAssistant, config, async_add_entities: AddEntitiesCallback, discovery_info=None
+):
+    """Set up Gree extended select entities."""
+    _LOGGER.info("Setting up Gree extended select platform")
     
     entities = []
     
     # Find all Gree climate entities
     for platform in ep.async_get_platforms(hass, GREE_DOMAIN):
+        _LOGGER.debug(f"Found platform: {platform.domain}")
         if platform.domain == CLIMATE_DOMAIN:
+            _LOGGER.info(f"Found Gree climate platform with {len(platform.entities)} entities")
             for entity_id, entity in platform.entities.items():
                 if isinstance(entity, GreeClimateEntity):
-                    _LOGGER.debug(f"Creating select entities for {entity_id}")
+                    _LOGGER.info(f"Creating select entities for {entity_id}")
                     # Create two select entities for each Gree climate
                     entities.append(GreeHorizontalSwingSelect(hass, entity))
                     entities.append(GreeVerticalSwingSelect(hass, entity))
