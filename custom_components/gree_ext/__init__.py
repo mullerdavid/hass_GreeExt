@@ -1,19 +1,14 @@
 """
 The "Gree climate extension" custom component.
-
 This component implements the different swing types not configurable with the built in climate.
-
 Configuration:
-
 To use the component you will need to add the following to your
 configuration.yaml file.
-
 gree_ext:
 """
-
 import logging
-
-from homeassistant.core import callback
+from homeassistant.core import callback, HomeAssistant
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers import area_registry as ar, device_registry as dr, entity_registry as er, entity_platform as ep
 from homeassistant.components.climate.const import DOMAIN as CLIMATE_DOMAIN
 from homeassistant.components.gree.const import DOMAIN as GREE_DOMAIN
@@ -24,7 +19,6 @@ _LOGGER = logging.getLogger(__name__)
 
 # The domain of your component. Should be equal to the name of your component.
 DOMAIN = "gree_ext"
-
 
 async def async_setup(hass, config):
     """Setup our component."""
@@ -67,6 +61,11 @@ async def async_setup(hass, config):
                         entity.async_write_ha_state()
 	
     hass.services.async_register(DOMAIN, 'set_swing_mode_ext', async_set_swing_mode_ext)
+    
+    # Set up the select platform
+    hass.async_create_task(
+        hass.helpers.discovery.async_load_platform("select", DOMAIN, {}, config)
+    )
     
     # Return boolean to indicate that initialization was successfully.
     return True
