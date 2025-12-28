@@ -10,6 +10,7 @@ import logging
 from homeassistant.core import callback, HomeAssistant
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers import area_registry as ar, device_registry as dr, entity_registry as er, entity_platform as ep
+from homeassistant.helpers.discovery import async_load_platform
 from homeassistant.components.climate.const import DOMAIN as CLIMATE_DOMAIN
 from homeassistant.components.gree.const import DOMAIN as GREE_DOMAIN
 from homeassistant.components.gree.climate import GreeClimateEntity
@@ -64,7 +65,7 @@ async def async_setup(hass, config):
     
     # Set up the select platform
     hass.async_create_task(
-        hass.helpers.discovery.async_load_platform("select", DOMAIN, {}, config)
+        async_load_platform(hass, "select", DOMAIN, {}, config)
     )
     
     # Return boolean to indicate that initialization was successfully.
