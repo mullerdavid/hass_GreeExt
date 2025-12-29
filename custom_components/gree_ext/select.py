@@ -7,6 +7,7 @@ from homeassistant.helpers import entity_platform as ep
 from homeassistant.components.gree.const import DOMAIN as GREE_DOMAIN
 from homeassistant.components.climate.const import DOMAIN as CLIMATE_DOMAIN
 from homeassistant.components.gree.climate import GreeClimateEntity
+from greeclimate.device import HorizontalSwing, VerticalSwing
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -48,7 +49,6 @@ async def async_setup_platform(
     
     # Find all Gree climate entities
     for platform in ep.async_get_platforms(hass, GREE_DOMAIN):
-        _LOGGER.debug(f"Found platform: {platform.domain}")
         if platform.domain == CLIMATE_DOMAIN:
             _LOGGER.info(f"Found Gree climate platform with {len(platform.entities)} entities")
             for entity_id, entity in platform.entities.items():
@@ -77,9 +77,24 @@ class GreeSwingSelectBase(SelectEntity):
         # Link to the same device as the climate entity
         self._attr_device_info = climate_entity.device_info
         
+        # Get a better name - use the device name from coordinator if entity name is None
+        base_name = climate_entity.name
+        if base_name is None or base_name == "None":
+            try:
+                # Try to get name from the device info
+                if climate_entity.device_info and "name" in climate_entity.device_info:
+                    base_name = climate_entity.device_info["name"]
+                else:
+                    # Fallback to coordinator device name
+                    base_name = climate_entity.coordinator.device.device_info.name
+            except (AttributeError, KeyError):
+                # Last resort - use entity_id
+                base_name = climate_entity.entity_id.replace("climate.", "").replace("_", " ").title()
+        
+        self._base_name = base_name
+        
     async def async_added_to_hass(self):
         """When entity is added to hass."""
-        # Listen to climate entity state changes to update our state
         self.async_on_remove(
             self._climate_entity.coordinator.async_add_listener(
                 self._handle_coordinator_update
@@ -100,7 +115,7 @@ class GreeHorizontalSwingSelect(GreeSwingSelectBase):
         super().__init__(hass, climate_entity)
         self._attr_options = HORIZONTAL_SWING_OPTIONS
         self._attr_unique_id = f"{climate_entity.unique_id}_horizontal_swing"
-        self._attr_name = f"{climate_entity.name} Horizontal Swing"
+        self._attr_name = f"{self._base_name} Horizontal Swing"
         self._attr_icon = "mdi:arrow-left-right"
         
     @property
@@ -108,8 +123,19 @@ class GreeHorizontalSwingSelect(GreeSwingSelectBase):
         """Return the current selected option."""
         try:
             device = self._climate_entity.coordinator.device
-            return device.horizontal_swing.name
-        except (AttributeError, KeyError):
+            swing_value = device.horizontal_swing
+            
+            # This lets us show the enum name instead of the int value
+            if isinstance(swing_value, int):
+                swing_enum = HorizontalSwing(swing_value)
+                current = swing_enum.name
+            else:
+                current = swing_value.name
+                
+            _LOGGER.debug(f"Horizontal swing for {self._climate_entity.entity_id}: {current}")
+            return current
+        except (AttributeError, ValueError, KeyError) as e:
+            _LOGGER.warning(f"Error reading horizontal swing for {self._climate_entity.entity_id}: {type(e).__name__}: {e}")
             return "Default"
     
     async def async_select_option(self, option: str):
@@ -132,7 +158,7 @@ class GreeVerticalSwingSelect(GreeSwingSelectBase):
         super().__init__(hass, climate_entity)
         self._attr_options = VERTICAL_SWING_OPTIONS
         self._attr_unique_id = f"{climate_entity.unique_id}_vertical_swing"
-        self._attr_name = f"{climate_entity.name} Vertical Swing"
+        self._attr_name = f"{self._base_name} Vertical Swing"
         self._attr_icon = "mdi:arrow-up-down"
         
     @property
@@ -140,8 +166,19 @@ class GreeVerticalSwingSelect(GreeSwingSelectBase):
         """Return the current selected option."""
         try:
             device = self._climate_entity.coordinator.device
-            return device.vertical_swing.name
-        except (AttributeError, KeyError):
+            swing_value = device.vertical_swing
+            
+            # This lets us show the enum name instead of the int value
+            if isinstance(swing_value, int):
+                swing_enum = VerticalSwing(swing_value)
+                current = swing_enum.name
+            else:
+                current = swing_value.name
+                
+            _LOGGER.debug(f"Vertical swing for {self._climate_entity.entity_id}: {current}")
+            return current
+        except (AttributeError, ValueError, KeyError) as e:
+            _LOGGER.warning(f"Error reading vertical swing for {self._climate_entity.entity_id}: {type(e).__name__}: {e}")
             return "Default"
     
     async def async_select_option(self, option: str):
