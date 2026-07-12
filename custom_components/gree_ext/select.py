@@ -1,4 +1,5 @@
 import logging
+import re
 
 from homeassistant.core import Event, HomeAssistant, callback
 from homeassistant.config_entries import ConfigEntry
@@ -14,6 +15,15 @@ from .helpers import get_climate_base_name, set_entity_swing_mode
 # Based on the PR by [Ian C.](https://github.com/ic-dev21). Thank you.
 
 _LOGGER = logging.getLogger(__name__)
+
+def _enum_name_to_option(name: str) -> str:
+    """Convert enum names like FixedUpperMiddle to fixed_upper_middle."""
+    return re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
+    
+def _option_to_enum_name(option: str) -> str:
+    """Convert snake_case option keys to PascalCase enum names."""
+    option = option[:1].upper() + option[1:]
+    return re.sub(r"_([a-z])", lambda m: m.group(1).upper(), option)
 
 async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
@@ -111,6 +121,9 @@ class GreeHorizontalSwingSelect(GreeSwingSelectBase):
 
     @property
     def current_option(self) -> str:
+        return _option_to_enum_name(self._current_option())
+        
+    def _current_option(self) -> str:
         """Return the current selected option."""
         try:
             device = self._climate_entity.coordinator.device
@@ -130,6 +143,9 @@ class GreeHorizontalSwingSelect(GreeSwingSelectBase):
             return "Default"
 
     async def async_select_option(self, option: str):
+        await self._async_select_option(_option_to_enum_name(option))
+        
+    async def _async_select_option(self, option: str):
         """Change the selected option."""
         await set_entity_swing_mode(self._climate_entity, swing_mode_horizontal=option, logger=_LOGGER)
 
@@ -148,6 +164,9 @@ class GreeVerticalSwingSelect(GreeSwingSelectBase):
 
     @property
     def current_option(self) -> str:
+        return _option_to_enum_name(self._current_option())
+        
+    def _current_option(self) -> str:
         """Return the current selected option."""
         try:
             device = self._climate_entity.coordinator.device
@@ -167,5 +186,8 @@ class GreeVerticalSwingSelect(GreeSwingSelectBase):
             return "Default"
 
     async def async_select_option(self, option: str):
+        await self._async_select_option(_option_to_enum_name(option))
+        
+    async def _async_select_option(self, option: str):
         """Change the selected option."""
         await set_entity_swing_mode(self._climate_entity, swing_mode_vertical=option, logger=_LOGGER)

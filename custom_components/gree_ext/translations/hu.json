@@ -14,29 +14,29 @@
     "select": {
       "horizontal_swing": {
         "state": {
-          "Default": "Alapértelmezett",
-          "FullSwing": "Teljes vízszintes mozgás",
-          "Left": "Bal",
-          "LeftCenter": "Bal-közép",
-          "Center": "Közép",
-          "RightCenter": "Jobb-közép",
-          "Right": "Jobb"
+          "default": "Alapértelmezett",
+          "full_swing": "Teljes vízszintes mozgás",
+          "left": "Bal",
+          "left_center": "Bal-közép",
+          "center": "Közép",
+          "right_center": "Jobb-közép",
+          "right": "Jobb"
         }
       },
       "vertical_swing": {
         "state": {
-          "Default": "Alapértelmezett",
-          "FullSwing": "Teljes függőleges mozgás",
-          "FixedUpper": "Rögzített felső",
-          "FixedUpperMiddle": "Rögzített felső-közép",
-          "FixedMiddle": "Rögzített közép",
-          "FixedLowerMiddle": "Rögzített alsó-közép",
-          "FixedLower": "Rögzített alsó",
-          "SwingUpper": "Lengő felső",
-          "SwingUpperMiddle": "Lengő felső-közép",
-          "SwingMiddle": "Lengő közép",
-          "SwingLowerMiddle": "Lengő alsó-közép",
-          "SwingLower": "Lengő alsó"
+          "default": "Alapértelmezett",
+          "full_swing": "Teljes függőleges mozgás",
+          "fixed_upper": "Rögzített felső",
+          "fixed_upper_middle": "Rögzített felső-közép",
+          "fixed_middle": "Rögzített közép",
+          "fixed_lower_middle": "Rögzített alsó-közép",
+          "fixed_lower": "Rögzített alsó",
+          "swing_upper": "Lengő felső",
+          "swing_upper_middle": "Lengő felső-közép",
+          "swing_middle": "Lengő közép",
+          "swing_lower_middle": "Lengő alsó-közép",
+          "swing_lower": "Lengő alsó"
         }
       }
     }
