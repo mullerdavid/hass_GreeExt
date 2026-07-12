@@ -1,23 +1,24 @@
 import logging
 
 from homeassistant.core import Event, HomeAssistant, callback
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers import entity_platform as ep
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers import device_registry as dr, entity_registry as er
 from homeassistant.components.select import SelectEntity
 from homeassistant.components.gree.climate import GreeClimateEntity
 from greeclimate.device import HorizontalSwing, VerticalSwing
-from .const import DOMAIN, GREE_DOMAIN, CLIMATE_DOMAIN, SERVICE_SET_SWING_MODE_EXT, HORIZONTAL_SWING_OPTIONS, VERTICAL_SWING_OPTIONS
+from .const import DOMAIN, GREE_DOMAIN, CLIMATE_DOMAIN, HORIZONTAL_SWING_OPTIONS, VERTICAL_SWING_OPTIONS
 from .helpers import get_climate_base_name, set_entity_swing_mode
 
 # Based on the PR by [Ian C.](https://github.com/ic-dev21). Thank you.
 
 _LOGGER = logging.getLogger(__name__)
 
-async def async_setup_platform(
-    hass: HomeAssistant, config, async_add_entities: AddEntitiesCallback, discovery_info=None
+async def async_setup_entry(
+    hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ):
-    """Set up Gree extended select entities."""
+    """Set up Gree extended select entities from a config entry."""
     _LOGGER.info("Setting up Gree extended select platform")
 
     select_entities: dict[str, list] = {}
@@ -106,6 +107,7 @@ class GreeHorizontalSwingSelect(GreeSwingSelectBase):
         self._attr_unique_id = f"{climate_entity.unique_id}_horizontal_swing"
         self._attr_name = f"{self._base_name} Horizontal Swing"
         self._attr_icon = "mdi:arrow-left-right"
+        self._attr_translation_key = "horizontal_swing"
 
     @property
     def current_option(self) -> str:
@@ -142,6 +144,7 @@ class GreeVerticalSwingSelect(GreeSwingSelectBase):
         self._attr_unique_id = f"{climate_entity.unique_id}_vertical_swing"
         self._attr_name = f"{self._base_name} Vertical Swing"
         self._attr_icon = "mdi:arrow-up-down"
+        self._attr_translation_key = "vertical_swing"
 
     @property
     def current_option(self) -> str:

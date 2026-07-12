@@ -1,41 +1,31 @@
-"""
-The "Gree climate extension" custom component.
-
-This component implements the different swing types not configurable with the built in climate.
-
-Configuration:
-
-To use the component you will need to add the following to your
-configuration.yaml file.
-
-gree_ext:
-"""
+"""The "Gree climate extension" custom component."""
 
 import logging
 
 from homeassistant.core import HomeAssistant, callback
-from homeassistant.helpers.discovery import async_load_platform
-from homeassistant.helpers import device_registry as dr
-from .const import DOMAIN, GREE_DOMAIN, SERVICE_SET_SWING_MODE_EXT
+from homeassistant.config_entries import ConfigEntry
+from .const import DOMAIN, SERVICE_SET_SWING_MODE_EXT
 from .service import async_set_swing_mode_ext
 
 _LOGGER = logging.getLogger(__name__)
 
-async def async_setup(hass: HomeAssistant, config):
-    """Setup our component."""
 
-    # Set up the service
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+    """Set up Gree Climate Extension from a config entry."""
+
     @callback
     async def async_set_swing_mode_ext_callback(call):
         """Set swing mode extended."""
         await async_set_swing_mode_ext(hass, call)
-	
+
     hass.services.async_register(DOMAIN, SERVICE_SET_SWING_MODE_EXT, async_set_swing_mode_ext_callback)
 
-    # Set up the select platform
-    hass.async_create_task(
-        async_load_platform(hass, "select", DOMAIN, {}, config)
-    )
-    
-    # Return boolean to indicate that initialization was successfully.
+    await hass.config_entries.async_forward_entry_setups(entry, ["select"])
+
     return True
+
+
+async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+    """Unload a config entry."""
+    hass.services.async_remove(DOMAIN, SERVICE_SET_SWING_MODE_EXT)
+    return await hass.config_entries.async_unload_platforms(entry, ["select"])

@@ -1,0 +1,44 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Gree Climate Extension",
+        "description": "A Gree Climate Extension integráció beállítása a Gree eszközök kiterjesztett légirány-vezérlésének engedélyezéséhez."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Már konfigurálva. Csak egyetlen konfiguráció lehetséges."
+    }
+  },
+  "entity": {
+    "select": {
+      "horizontal_swing": {
+        "state": {
+          "Default": "Alapértelmezett",
+          "FullSwing": "Teljes vízszintes mozgás",
+          "Left": "Bal",
+          "LeftCenter": "Bal-közép",
+          "Center": "Közép",
+          "RightCenter": "Jobb-közép",
+          "Right": "Jobb"
+        }
+      },
+      "vertical_swing": {
+        "state": {
+          "Default": "Alapértelmezett",
+          "FullSwing": "Teljes függőleges mozgás",
+          "FixedUpper": "Rögzített felső",
+          "FixedUpperMiddle": "Rögzített felső-közép",
+          "FixedMiddle": "Rögzített közép",
+          "FixedLowerMiddle": "Rögzített alsó-közép",
+          "FixedLower": "Rögzített alsó",
+          "SwingUpper": "Lengő felső",
+          "SwingUpperMiddle": "Lengő felső-közép",
+          "SwingMiddle": "Lengő közép",
+          "SwingLowerMiddle": "Lengő alsó-közép",
+          "SwingLower": "Lengő alsó"
+        }
+      }
+    }
+  }
+}

@@ -5,13 +5,14 @@ Allows setting different swing positions for the default Gree integration.
 
 ## Custom Component Installation
 
-1. Copy the custom_components folder to your own hass `/config` folder.
+1. Copy the `custom_components` folder to your own hass `/config` folder.
 
-2. In your configuration.yaml add the following:
-  
-   ```yaml
-   gree_ext:
-   ```
+2. Restart Home Assistant.
+
+3. Go to **Settings → Devices & Services → Add Integration** and search for **Gree Climate Extension**.
+
+4. Click **Submit** to finish setup.
+
 ## Usage
 
 ### Select entities
