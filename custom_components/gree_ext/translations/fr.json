@@ -1,0 +1,44 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Extension Gree Climate",
+        "description": "Configurez l'intégration Extension Gree Climate pour activer le contrôle avancé du balayage (swing) pour vos appareils Gree."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Déjà configuré. Une seule configuration est possible."
+    }
+  },
+  "entity": {
+    "select": {
+      "horizontal_swing": {
+        "state": {
+          "default": "Par défaut",
+          "full_swing": "Balayage complet",
+          "left": "Gauche",
+          "left_center": "Centre gauche",
+          "center": "Centre",
+          "right_center": "Centre droit",
+          "right": "Droite"
+        }
+      },
+      "vertical_swing": {
+        "state": {
+          "default": "Par défaut",
+          "full_swing": "Balayage complet",
+          "fixed_upper": "Fixe haut",
+          "fixed_upper_middle": "Fixe haut-milieu",
+          "fixed_middle": "Fixe milieu",
+          "fixed_lower_middle": "Fixe bas-milieu",
+          "fixed_lower": "Fixe bas",
+          "swing_upper": "Balayage haut",
+          "swing_upper_middle": "Balayage haut-milieu",
+          "swing_middle": "Balayage milieu",
+          "swing_lower_middle": "Balayage bas-milieu",
+          "swing_lower": "Balayage bas"
+        }
+      }
+    }
+  }
+}
