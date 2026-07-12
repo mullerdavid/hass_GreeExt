@@ -14,29 +14,29 @@
     "select": {
       "horizontal_swing": {
         "state": {
-          "Default": "Default",
-          "FullSwing": "Full Swing",
-          "Left": "Left",
-          "LeftCenter": "Left Center",
-          "Center": "Center",
-          "RightCenter": "Right Center",
-          "Right": "Right"
+          "default": "Default",
+          "full_swing": "Full Swing",
+          "left": "Left",
+          "left_center": "Left Center",
+          "center": "Center",
+          "right_center": "Right Center",
+          "right": "Right"
         }
       },
       "vertical_swing": {
         "state": {
-          "Default": "Default",
-          "FullSwing": "Full Swing",
-          "FixedUpper": "Fixed Upper",
-          "FixedUpperMiddle": "Fixed Upper Middle",
-          "FixedMiddle": "Fixed Middle",
-          "FixedLowerMiddle": "Fixed Lower Middle",
-          "FixedLower": "Fixed Lower",
-          "SwingUpper": "Swing Upper",
-          "SwingUpperMiddle": "Swing Upper Middle",
-          "SwingMiddle": "Swing Middle",
-          "SwingLowerMiddle": "Swing Lower Middle",
-          "SwingLower": "Swing Lower"
+          "default": "Default",
+          "full_swing": "Full Swing",
+          "fixed_upper": "Fixed Upper",
+          "fixed_upper_middle": "Fixed Upper Middle",
+          "fixed_middle": "Fixed Middle",
+          "fixed_lower_middle": "Fixed Lower Middle",
+          "fixed_lower": "Fixed Lower",
+          "swing_upper": "Swing Upper",
+          "swing_upper_middle": "Swing Upper Middle",
+          "swing_middle": "Swing Middle",
+          "swing_lower_middle": "Swing Lower Middle",
+          "swing_lower": "Swing Lower"
         }
       }
     }
