@@ -63,21 +63,46 @@ async def async_setup_entry(
                 if isinstance(entity, GreeClimateEntity):
                     await add_selects_for_climate(entity)
     
+    async def _find_live_gree_climate(entity_id: str) -> GreeClimateEntity | None:
+        for platform in ep.async_get_platforms(hass, GREE_DOMAIN):
+            if platform.domain != CLIMATE_DOMAIN:
+                continue
+            for live_entity in platform.entities.values():
+                if (
+                    isinstance(live_entity, GreeClimateEntity)
+                    and live_entity.entity_id == entity_id
+                ):
+                    return live_entity
+        return None
+
     # Handle device add/remove
     async def handle_device_event(event: Event[dr.EventDeviceRegistryUpdatedData]):
         """Handle devices being added, updated, or removed."""
         action = event.data.get("action")
-        did = event.data.get("device_id")
-        if not did:
+        device_id = event.data.get("device_id")
+        if not device_id:
             return
+
         ent_reg = er.async_get(hass)
-        for entity in er.async_entries_for_device(ent_reg,did):
-            if not isinstance(entity, GreeClimateEntity):
-                continue
-            if action == "create":
-                await add_selects_for_climate(entity)
-            elif action == "remove":
-                await remove_selects_for_climate(entity.entity_id)
+        reg_entries = er.async_entries_for_device(ent_reg, device_id)
+
+        climate_entity_ids = [
+            entry.entity_id
+            for entry in reg_entries
+            if entry.domain == CLIMATE_DOMAIN and entry.platform == GREE_DOMAIN
+        ]
+
+        if action in ("create", "update"):
+            for entity_id in climate_entity_ids:
+                live_entity = await _find_live_gree_climate(entity_id)
+                if live_entity is None:
+                    _LOGGER.debug("Gree climate entity %s not live yet", entity_id)
+                    continue
+                await add_selects_for_climate(live_entity)
+
+        elif action == "remove":
+            for entity_id in climate_entity_ids:
+                await remove_selects_for_climate(entity_id)
 
     hass.bus.async_listen(dr.EVENT_DEVICE_REGISTRY_UPDATED, handle_device_event)
 
