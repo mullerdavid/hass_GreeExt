@@ -154,6 +154,9 @@ class GreeHorizontalSwingSelect(GreeSwingSelectBase):
             device = self._climate_entity.coordinator.device
             swing_value = device.horizontal_swing
 
+            if swing_value is None:
+                return "Default"
+
             # This lets us show the enum name instead of the int value
             if isinstance(swing_value, int):
                 swing_enum = HorizontalSwing(swing_value)
@@ -196,6 +199,9 @@ class GreeVerticalSwingSelect(GreeSwingSelectBase):
         try:
             device = self._climate_entity.coordinator.device
             swing_value = device.vertical_swing
+
+            if swing_value is None:
+                return "Default"
 
             # This lets us show the enum name instead of the int value
             if isinstance(swing_value, int):
