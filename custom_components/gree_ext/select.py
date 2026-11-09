@@ -145,17 +145,17 @@ class GreeHorizontalSwingSelect(GreeSwingSelectBase):
         self._attr_translation_key = "horizontal_swing"
 
     @property
-    def current_option(self) -> str:
+    def current_option(self) -> str | None:
         return _option_to_enum_name(self._current_option())
         
-    def _current_option(self) -> str:
+    def _current_option(self) -> str | None:
         """Return the current selected option."""
         try:
             device = self._climate_entity.coordinator.device
             swing_value = device.horizontal_swing
 
             if swing_value is None:
-                return "Default"
+                return None
 
             # This lets us show the enum name instead of the int value
             if isinstance(swing_value, int):
@@ -191,17 +191,17 @@ class GreeVerticalSwingSelect(GreeSwingSelectBase):
         self._attr_translation_key = "vertical_swing"
 
     @property
-    def current_option(self) -> str:
+    def current_option(self) -> str | None:
         return _option_to_enum_name(self._current_option())
         
-    def _current_option(self) -> str:
+    def _current_option(self) -> str | None:
         """Return the current selected option."""
         try:
             device = self._climate_entity.coordinator.device
             swing_value = device.vertical_swing
 
             if swing_value is None:
-                return "Default"
+                return None
 
             # This lets us show the enum name instead of the int value
             if isinstance(swing_value, int):
